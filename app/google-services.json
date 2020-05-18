@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "387968923860",
+    "firebase_url": "https://rapicarmen-database.firebaseio.com",
+    "project_id": "rapicarmen-database",
+    "storage_bucket": "rapicarmen-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387968923860:android:9eb1b3138a86bc2ee4e341",
+        "android_client_info": {
+          "package_name": "com.example.rapicarmen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387968923860-l83jiqubnseeicjdj0kpe2bq84qrqgq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqq3gvJMnx9aG0y7wEb5Ngf_2Uso5sjKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387968923860-l83jiqubnseeicjdj0kpe2bq84qrqgq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

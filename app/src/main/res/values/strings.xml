@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RapiCarmen</string>
+    <string name="hint_search">Busqueda por nombre</string>
+
+    <string name="nombre_transicion_imagen">imagen_compartida</string>
+
+    <string name="DescripcionImagen">Tipos de tienda</string>
+</resources>
