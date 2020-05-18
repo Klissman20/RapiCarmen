@@ -7,43 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.firestore.*
 
+@Suppress("NAME_SHADOWING")
+class StoreTypesAdapter  (context: Context, stores: Array<StoreTypes>): BaseAdapter() {
 
-class StoreTypesAdapter  (context: Context): BaseAdapter() {
-    private var context: Context = context
-    var stores: Array<StoreTypes> = StoreTypes("",0).getArray()
+    private var context = context
+    private var stores = stores
 
-    /*
-    val mFirestore = FirebaseFirestore.getInstance()
+    override fun getCount(): Int { return stores.size }
 
-    val refNegocios = mFirestore.collection("Negocios")
+    override fun getItem(position: Int): StoreTypes { return stores[position] }
 
-    val res = refNegocios.get().addOnSuccessListener { result ->
-        for (document in result){
-            stores[] = StoreTypes("{$document.id}")
-        }
-    }.addOnFailureListener { exception ->
-        Toast.makeText(context, "Error getting documents.", Toast.LENGTH_SHORT).show()
-    }
-
-     */
-
-
-    override fun getCount(): Int {
-        return stores.size
-    }
-
-    override fun getItem(position: Int): StoreTypes {
-        return stores[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return getItem(position).getId().toLong()
-    }
+    override fun getItemId(position: Int): Long { return getItem(position).getId().toLong() }
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
         var view = view

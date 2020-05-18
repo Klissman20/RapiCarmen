@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/shop_item_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#757575"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_rapicarmen_foreground" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shop_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="Nombre Tienda"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/shop_item_telefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/restaurant_item_name"
+                android:layout_below="@+id/restaurant_item_rating"
+                android:text="Telefono"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/shop_item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/restaurant_item_category"
+                android:layout_toRightOf="@+id/restaurant_item_city_divider"
+                android:text="Categoria"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
