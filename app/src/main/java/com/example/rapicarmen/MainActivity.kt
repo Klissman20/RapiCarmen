@@ -17,16 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRestaurantSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private var mFirestore: FirebaseFirestore? = null
-    private var mQuery: Query? = null
-
-    private val mCurrentSearchView: TextView? = null
-    private val mCurrentSortByView: TextView? = null
-    private val mRestaurantsRecycler: RecyclerView? = null
-    private val mEmptyView: ViewGroup? = null
-    private var mAdapter: ShopAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
 
         initFirestore()
 
+        //Interfaz de captura los datos de la consulta hecha a firestore para inflar la vista de las categorias
         getCategories(object : FirestoreCallBack {
             override fun onCallBack(arrayCategories: Array<StoreTypes>) {
                 val storeAdapter = StoreTypesAdapter(baseContext, arrayCategories);
@@ -46,54 +40,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
             }
         },mFirestore!!)
 
-        gridListener(gridView)//Funcion de escucha para clicks en gridView
+        gridListener(gridView)//Funcion de escucha para clicks en gridView(Vista de categorias)
 
-        addRealtimeUpdate(mFirestore!!)
+        //addRealtimeUpdate(mFirestore!!)
     }
 
     private fun initFirestore() {
         mFirestore = FirebaseFirestore.getInstance()
-
-
+        /*
         // To read data from Firetore Database
         mQuery = mFirestore!!.collection("/Negocios").document("Carnicerias")
                                 .collection("Tiendas")
             .orderBy("avgRating", Query.Direction.DESCENDING)
             .limit(Long.MAX_VALUE)///////////////////////////////////////////////(LIMIT)
-
-
+        */
     }
 
-    private fun initRecyclerView() {
-        if (mQuery == null) {
-            Log.w("MAIN", "No query, not initializing RecyclerView")
-        }
-        mAdapter = object : ShopAdapter(mQuery, this) {
-            override fun onDataChanged() {
-                // Show/hide content if the query returns empty.
-                if (getItemCount() == 0) {
-                    mRestaurantsRecycler!!.setVisibility(View.GONE)
-                    mEmptyView!!.setVisibility(View.VISIBLE)
-                } else {
-                    mRestaurantsRecycler!!.setVisibility(View.VISIBLE)
-                    mEmptyView!!.setVisibility(View.GONE)
-                }
-            }
-
-            override fun onError(e: FirebaseFirestoreException?) {
-                // Show a snackbar on errors
-
-            }
-        }
-        mRestaurantsRecycler!!.setLayoutManager(LinearLayoutManager(this))
-        mRestaurantsRecycler.setAdapter(mAdapter)
-    }
-
-    //Escribir en la base de datos
+    /*
+    //Escribir tiendas en la base de datos
     private fun onAddItemsClicked() {
         val storeCarnicerias = mFirestore!!.collection("Negocios")
             .document("Carnicerias")
-            .collection("Tienda2")
+            .collection("Tiendas")
         /*
         val tienda = StoreTypes("holaaaa",5433456)
         val store = hashMapOf(
@@ -105,6 +73,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
         val tienda = Tienda("pruebaa data class", 43523423)
         storeCarnicerias.document("dataclass").set(tienda)
     }
+     */
 
     data class Tienda(
         val nombre: String? = null,
@@ -131,7 +100,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
                 true
             }
             R.id.agregar -> {
-                onAddItemsClicked()
+                //onAddItemsClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -141,34 +110,77 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
     private fun gridListener(gridView: GridView){
         gridView.onItemClickListener = object : AdapterView.OnItemClickListener{
             override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                //val selectedItem = parent?.getItemAtPosition(position)
+                //var selectedItem = parent?.getItemAtPosition(position)
                 when (position) {
                     0 -> {
-                        Toast.makeText(baseContext,"Eligio: Carnicerias",Toast.LENGTH_SHORT).show()
+                        val query: String = "Belleza"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     1 -> {
-                        Toast.makeText(baseContext,"Eligio: Farmacias",Toast.LENGTH_SHORT).show()
+                        val query: String = "Carnicerias"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     2 -> {
-                        Toast.makeText(baseContext,"Eligio: Fruterias",Toast.LENGTH_SHORT).show()
+                        val query: String = "Farmacias"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     3 -> {
-                        Toast.makeText(baseContext,"Eligio: Licoreras",Toast.LENGTH_SHORT).show()
+                        val query: String = "Fruterias"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     4 -> {
-                        Toast.makeText(baseContext,"Eligio: Restaurantes",Toast.LENGTH_SHORT).show()
+                        val query: String = "Licoreras"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     5 -> {
-                        Toast.makeText(baseContext,"Eligio: Supermercados",Toast.LENGTH_SHORT).show()
+                        val query: String = "Mascotas"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     6 -> {
-                        Toast.makeText(baseContext,"Eligio: FERRETERIAS",Toast.LENGTH_SHORT).show()
+                        val query: String = "Moda"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     7 -> {
-                        Toast.makeText(baseContext,"Eligio: PANADERIAS",Toast.LENGTH_SHORT).show()
+                        val query: String = "Restaurantes"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                     8 -> {
-                        Toast.makeText(baseContext,"Eligio: FARMACIAS",Toast.LENGTH_SHORT).show()
+                        val query: String = "Supermercados"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
+                    }
+                    9 -> {
+                        val query: String = "Tecnologia"
+                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
+                            putExtra("query", query)
+                        }
+                        startActivity(intent)
                     }
                 }
             }
@@ -226,20 +238,5 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ShopAdapter.OnRe
         fun onCallBack(arrayCategories: Array<StoreTypes>)
     }
 
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            //R.id.filter_bar -> onFilterClicked()
-            //R.id.button_clear_filter -> onClearFilterClicked()
-        }
-    }
-
-    override fun onRestaurantSelected(restaurant: DocumentSnapshot?) {
-        // Go to the details page for the selected restaurant
-        //val intent = Intent(this, RestaurantDetailActivity::class.java)
-        //intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant!!.id)
-
-        //startActivity(intent)
-    }
 
 }

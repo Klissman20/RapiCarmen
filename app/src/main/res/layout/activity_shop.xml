@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ShopViewActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbare"
@@ -40,19 +40,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_below="@+id/barra_busqueda"
         android:background="@drawable/bg_shadow" />
 
-
-    <GridView
-        android:id="@+id/grid"
+    <!-- Main Restaurants recycler -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_restaurants"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="200dp"
-        android:numColumns="3"
-        android:padding="15dp"
-        android:layout_marginTop="15dp"
-        android:verticalSpacing="@dimen/espacio_grilla"
-        android:horizontalSpacing="@dimen/espacio_grilla"/>
+        android:background="@android:color/white"
+        tools:listitem="@layout/item_shop"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

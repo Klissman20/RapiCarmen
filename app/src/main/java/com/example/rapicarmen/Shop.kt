@@ -1,17 +1,22 @@
 package com.example.rapicarmen
 
-class Shop(name: String, telefono:String, categoria: String) {
+import androidx.annotation.Keep
+import com.google.firebase.firestore.IgnoreExtraProperties
 
-    private var nombre = name
-    private var tel = telefono
-    private var cat = categoria
+@Keep
+@IgnoreExtraProperties
+data class Shop(
 
-    fun getNombre(): String{return this.nombre}
+    private var nombre: String? = null,
+    private var telefono: Int? = null,
+    private var categoria: String? = null) {
+
+    fun getNombre(): String{return this.nombre!!}
     fun setNombre(name: String){this.nombre = name}
 
-    fun getTelefono(): String {return this.tel}
-    fun setTelefono(tel: String){this.tel = tel}
+    fun getTelefono(): Int {return this.telefono!!}
+    fun setTelefono(tel: Int){this.telefono = tel}
 
-    fun getCategoria(): String {return this.cat}
-    fun setCategoria(cat: String){this.cat = cat}
+    fun getCategoria(): String {return this.categoria!!}
+    fun setCategoria(cat: String){this.categoria = cat}
 }

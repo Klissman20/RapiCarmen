@@ -19,7 +19,7 @@ open class ShopAdapter(mquery: Query?, mListener: OnRestaurantSelectedListener) 
     private var mListener: OnRestaurantSelectedListener? = null
 
     init{
-        super.setQuery(mquery)
+        FirestoreAdapter(mquery)
         this.mListener = mListener
     }
 
@@ -50,12 +50,9 @@ open class ShopAdapter(mquery: Query?, mListener: OnRestaurantSelectedListener) 
             val shop: Shop? = snapshot?.toObject(Shop::class.java)
             //val resources: Resources = itemView.resources
 
-            // Load image
-            //Glide.with(imageView.context)
-            //    .load(restaurant.getPhoto())
-            //    .into(imageView)
+            imageView!!.setImageResource(R.drawable.ic_launcher_rapicarmen_foreground)
             nameView!!.setText(shop?.getNombre())
-            telView!!.setText(shop?.getTelefono())
+            telView!!.setText(shop?.getTelefono().toString())
             catView!!.setText(shop?.getCategoria())
 
 
@@ -66,9 +63,5 @@ open class ShopAdapter(mquery: Query?, mListener: OnRestaurantSelectedListener) 
                 )
             })
         }
-
     }
-
-
-
 }

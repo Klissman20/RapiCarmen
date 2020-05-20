@@ -45,7 +45,7 @@ abstract class FirestoreAdapter<VH : ViewHolder?> : RecyclerView.Adapter<VH>(), 
     }
 
     open fun startListening() {
-        if (mQuery != null && mRegistration == null) {
+        if (mQuery != null /* && mRegistration == null*/) {
             mRegistration = mQuery!!.addSnapshotListener(this)
         }
     }
@@ -75,7 +75,7 @@ abstract class FirestoreAdapter<VH : ViewHolder?> : RecyclerView.Adapter<VH>(), 
 
 
     override fun getItemCount(): Int {
-        return mSnapshots.size
+        return (mSnapshots.size)
     }
 
     protected open fun getSnapshot(index: Int): DocumentSnapshot? { return mSnapshots[index] }
