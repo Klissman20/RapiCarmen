@@ -1,9 +1,11 @@
 package com.example.rapicarmen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,13 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 
-class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.OnRestaurantSelectedListener {
+class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.OnShopSelectedListener {
 
     private var mFirestore: FirebaseFirestore? = null
     private var mQuery: Query? = null
-
-    //private val mCurrentSearchView: TextView? = null
-    //private val mCurrentSortByView: TextView? = null
     private var mShopsRecycler: RecyclerView? = null
     private val mEmptyView: ViewGroup? = null
     private var mAdapter: ShopAdapter? = null
@@ -31,7 +30,7 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
         val toolbar = findViewById<Toolbar>(R.id.toolbare)
         setSupportActionBar(toolbar)
 
-        mShopsRecycler = findViewById(R.id.recycler_restaurants)
+        mShopsRecycler = findViewById(R.id.recycler_shops)
 
         getFirestoreQuery()
         initRecyclerView()
@@ -46,24 +45,11 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
         // To read data from Firetore Database
         mQuery = mFirestore!!.collection("/Negocios").document("$query")
             .collection("Tiendas")
-
     }
 
     override fun onStart() {
         super.onStart()
-        /*
-        // Start sign in if necessary
-        //if (shouldStartSignIn()) {
-        //    startSignIn()
-        //    return
-        //}
 
-        // Apply filters
-        //onFilter(mViewModel.getFilters())
-
-        // Start listening for Firestore updates
-
-         */
         if (mAdapter != null) {
             mAdapter!!.startListening()
         }
@@ -106,13 +92,19 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
         }
     }
 
-    override fun onRestaurantSelected(restaurant: DocumentSnapshot?) {
+    override fun onShopSelected(shop: DocumentSnapshot?) {
         // Go to the details page for the selected restaurant
         //val intent = Intent(this, RestaurantDetailActivity::class.java)
         //intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant!!.id)
         //startActivity(intent)
+        //Toast.makeText(this,"Selecciono: "+"${shop!!["nombre"]}",Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ShopDetailsActivity::class.java).apply {
+            putExtra("nombre", shop!!["nombre"].toString())
+            putExtra("tel", shop["telefono"].toString())
+            putExtra("categoria", shop["categoria"].toString())
+        }
+        startActivity(intent)
     }
-
 
     //initRecyclerView  obtiene la vista de las tiendas según su categoria
     private fun initRecyclerView() {
@@ -132,7 +124,7 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
             }
 
             override fun onError(e: FirebaseFirestoreException?) {
-                // Show a snackbar on errors
+                Toast.makeText(this@ShopViewActivity, "Error obteniendo los datos", Toast.LENGTH_SHORT).show()
 
             }
         }

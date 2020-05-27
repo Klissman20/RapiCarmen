@@ -16,7 +16,7 @@ abstract class FirestoreAdapter<VH : ViewHolder?> : RecyclerView.Adapter<VH>(), 
 
     private val mSnapshots = ArrayList<DocumentSnapshot>()
 
-    open fun FirestoreAdapter(query: Query?) { mQuery = query }
+    fun FirestoreAdapter(query: Query?) { mQuery = query }
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
 
@@ -29,7 +29,7 @@ abstract class FirestoreAdapter<VH : ViewHolder?> : RecyclerView.Adapter<VH>(), 
         // Dispatch the event
         for (change in documentSnapshots!!.documentChanges) {
             // Snapshot of the changed document
-            val snapshot: DocumentSnapshot = change.document
+            //val snapshot: DocumentSnapshot = change.document
             when (change.type) {
                 DocumentChange.Type.ADDED-> {
                     onDocumentAdded(change)

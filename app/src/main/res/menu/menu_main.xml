@@ -19,4 +19,9 @@
         android:title="Agregar tienda"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/signOut"
+        android:title="Cerrar sesion"
+        app:showAsAction="never" />
+
 </menu>

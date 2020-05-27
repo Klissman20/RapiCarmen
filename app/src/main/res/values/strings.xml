@@ -5,4 +5,16 @@
     <string name="nombre_transicion_imagen">imagen_compartida</string>
 
     <string name="DescripcionImagen">Tipos de tienda</string>
+
+    <string name="btn_registro">Registrarse</string>
+    <string name="btn_acceder">Iniciar sesion</string>
+    <string name="no_account">No tienes cuenta?</string>
+    <string name="email">E-mail</string>
+    <string name="pass">Contraseña</string>
+
+    <string name="prefs_file">com.example.rapicarmen.PREFERENCE_FILE_KEY</string>
+
+    <string name="facebook_app_id">851209288735278</string>
+    <string name="fb_login_protocol_scheme">fb851209288735278</string>
+
 </resources>

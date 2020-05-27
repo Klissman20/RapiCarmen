@@ -44,11 +44,11 @@
 
     <!-- Main Restaurants recycler -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_restaurants"
+        android:id="@+id/recycler_shops"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         tools:listitem="@layout/item_shop"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

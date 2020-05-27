@@ -1,25 +1,30 @@
 package com.example.rapicarmen
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+
+enum class ProviderType{
+    BASIC,
+    GOOGLE,
+    FACEBOOK
+}
 
 class MainActivity : AppCompatActivity() {
 
     private var mFirestore: FirebaseFirestore? = null
+    private var provider: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +32,30 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbare)
         setSupportActionBar(toolbar)
+
+        val bundle= intent.extras
+        val email= bundle?.getString("email")
+        provider = bundle?.getString("provider")
+        //setup(email?:"",provider?:"")
+
+        /*
+        val a = R.drawable.ic_belleza_store
+        val b = R.drawable.ic_carnicerias_store
+        val c = R.drawable.ic_farmacias_store
+        val d = R.drawable.ic_fruterias_store
+        val e = R.drawable.ic_licores_store
+        val f = R.drawable.ic_mascotas_store
+        val g = R.drawable.ic_moda_stores
+        val h = R.drawable.ic_restaurantes_store
+        val i = R.drawable.ic_tiendas_store
+        val j = R.drawable.ic_tecnologia_store
+         */
+
+        //Guardado de datos
+        val prefs=getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
+        prefs.putString("email",email)
+        prefs.putString("provider",provider)
+        prefs.apply()
 
         val gridView: GridView = findViewById(R.id.grid)
 
@@ -41,22 +70,27 @@ class MainActivity : AppCompatActivity() {
         },mFirestore!!)
 
         gridListener(gridView)//Funcion de escucha para clicks en gridView(Vista de categorias)
+    }
 
-        //addRealtimeUpdate(mFirestore!!)
+    private fun signOut(provider: String?){
+        val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+        prefs.clear()
+        prefs.apply()
+
+        if(provider == ProviderType.FACEBOOK.name){
+            LoginManager.getInstance().logOut()
+        }
+
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun initFirestore() {
         mFirestore = FirebaseFirestore.getInstance()
-        /*
-        // To read data from Firetore Database
-        mQuery = mFirestore!!.collection("/Negocios").document("Carnicerias")
-                                .collection("Tiendas")
-            .orderBy("avgRating", Query.Direction.DESCENDING)
-            .limit(Long.MAX_VALUE)///////////////////////////////////////////////(LIMIT)
-        */
     }
 
-    /*
     //Escribir tiendas en la base de datos
     private fun onAddItemsClicked() {
         val storeCarnicerias = mFirestore!!.collection("Negocios")
@@ -67,18 +101,11 @@ class MainActivity : AppCompatActivity() {
         val store = hashMapOf(
             "nombre" to "${tienda.getNombre()}",
             "telefono" to "${tienda.getIdDrawable()}"
-        )
+        )*/
 
-         */
-        val tienda = Tienda("pruebaa data class", 43523423)
-        storeCarnicerias.document("dataclass").set(tienda)
+        val tienda = Shop()
+        storeCarnicerias.document().set(tienda)
     }
-     */
-
-    data class Tienda(
-        val nombre: String? = null,
-        val telefono: Int? = null
-    )
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -101,6 +128,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.agregar -> {
                 //onAddItemsClicked()
+                true
+            }
+            R.id.signOut -> {
+                signOut(provider)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -222,21 +253,11 @@ class MainActivity : AppCompatActivity() {
                 CallBack.onCallBack(category)
             }
         }
-        /*
-        negociosRef.get().addOnSuccessListener { result ->
-
-            types = Array<StoreTypes>(size = result.size()){StoreTypes("",0)}
-            for (document in result) {
-                types[i] = StoreTypes(document.id,document["drawable"].toString().toInt())
-                i++
-            }
-        }*/
     }
 
-    //Interfaz de devolucion de llamada de los datos en FireStore
+    //Interfaz de devolucion de llamada de los datos en Firestore ^^
     interface FirestoreCallBack{
         fun onCallBack(arrayCategories: Array<StoreTypes>)
     }
-
 
 }

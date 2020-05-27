@@ -1,6 +1,5 @@
 package com.example.rapicarmen
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 
-open class ShopAdapter(mquery: Query?, mListener: OnRestaurantSelectedListener) : FirestoreAdapter<ShopAdapter.ViewHolder>() {
+open class ShopAdapter(mquery: Query?, mListener: OnShopSelectedListener) : FirestoreAdapter<ShopAdapter.ViewHolder>() {
 
-    interface OnRestaurantSelectedListener {
-        fun onRestaurantSelected(restaurant: DocumentSnapshot?)
+    interface OnShopSelectedListener {
+        fun onShopSelected(shop: DocumentSnapshot?)
     }
 
-    private var mListener: OnRestaurantSelectedListener? = null
+    private var mListener: OnShopSelectedListener? = null
 
     init{
         FirestoreAdapter(mquery)
@@ -45,20 +45,28 @@ open class ShopAdapter(mquery: Query?, mListener: OnRestaurantSelectedListener) 
             catView = itemView.findViewById(R.id.shop_item_category)
         }
 
-        fun bind(snapshot: DocumentSnapshot?, listener: OnRestaurantSelectedListener?) {
+        fun bind(snapshot: DocumentSnapshot?, listener: OnShopSelectedListener?) {
 
             val shop: Shop? = snapshot?.toObject(Shop::class.java)
             //val resources: Resources = itemView.resources
 
-            imageView!!.setImageResource(R.drawable.ic_launcher_rapicarmen_foreground)
+            val storageReference = FirebaseStorage.getInstance()
+            val imgReference = storageReference.getReferenceFromUrl("gs://rapicarmen-database.appspot.com/LogosTiendas/${shop?.getNombre()}.png")
+
+            imageView?.let {
+                GlideApp.with(itemView.context)
+                    .load(imgReference)
+                    .into(it)
+            }
+
+            //imageView!!.setImageResource(R.drawable.ic_launcher_rapicarmen_foreground)
             nameView!!.setText(shop?.getNombre())
             telView!!.setText(shop?.getTelefono().toString())
             catView!!.setText(shop?.getCategoria())
 
-
             // Click listener
             itemView.setOnClickListener(View.OnClickListener {
-                listener?.onRestaurantSelected(
+                listener?.onShopSelected(
                     snapshot
                 )
             })
