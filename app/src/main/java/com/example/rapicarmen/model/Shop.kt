@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.model
 
 import androidx.annotation.Keep
 import com.google.firebase.firestore.IgnoreExtraProperties

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp">
@@ -10,19 +11,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Detalle del Local"
+                    android:text="@string/Detalledelocal"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/black"
@@ -43,7 +39,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Nombre"
+                            android:text="@string/nombreLocal"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
@@ -51,8 +47,7 @@
                             android:id="@+id/nombredetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="La casa de la arepa" />
+                            android:padding="@dimen/text_padding"/>
 
                     </LinearLayout>
 
@@ -73,7 +68,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Descripcion de Contenido"
+                            android:text="@string/descripcionContenido"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
@@ -81,8 +76,7 @@
                             android:id="@+id/descriptionTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="El local vende de esta manera, con estos productos y estos precios" />
+                            android:padding="@dimen/text_padding"/>
 
                     </LinearLayout>
 
@@ -93,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Ubicacion"
+                    android:text="@string/ubicacion"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/black"
@@ -114,22 +108,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Dirección"
+                            android:text="@string/direccion"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/teldetail"
+                            android:id="@+id/addressdetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="Calle 1 #1 al lado del burro" />
+                            android:padding="@dimen/text_padding" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Descripción ubicacion"
+                            android:text="@string/descripcionUbicacion"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
@@ -137,8 +130,7 @@
                             android:id="@+id/starTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="En la esquina d la plaza a la derecha" />
+                            android:padding="@dimen/text_padding" />
 
                     </LinearLayout>
 
@@ -149,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Productos"
+                    android:text="@string/productos"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/black"
@@ -169,7 +161,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Platos fuertes"
+                            android:text="@string/descripcionProductos"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
@@ -177,8 +169,8 @@
                             android:id="@+id/catdetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="No se pai" />
+                            android:padding="@dimen/text_padding"/>
+                        <!--
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -191,9 +183,8 @@
                             android:id="@+id/dodTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="Tampoco se pai" />
-
+                            android:padding="@dimen/text_padding"/>
+                        -->
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -213,23 +204,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/text_padding"
-                            android:text="Telefono"
+                            android:text="@string/tel"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/contributionTV"
+                            android:id="@+id/teldetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/text_padding"
-                            android:text="Ni idea pai." />
+                            android:padding="@dimen/text_padding"/>
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

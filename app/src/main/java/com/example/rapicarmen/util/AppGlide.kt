@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.util
 
 import android.content.Context
 import com.bumptech.glide.Glide

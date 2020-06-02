@@ -6,22 +6,24 @@
 
     <item
         android:id="@+id/pedidos"
-        android:title="Pedidos"
+        android:title="@string/Pedidos"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/domicilios"
-        android:title="Domicilios"
+        android:title="@string/Domicilios"
         app:showAsAction="never" />
 
+    <!--
     <item
         android:id="@+id/agregar"
-        android:title="Agregar tienda"
+        android:title="@string/Agregar"
         app:showAsAction="never" />
+        -->
 
     <item
         android:id="@+id/signOut"
-        android:title="Cerrar sesion"
+        android:title="@string/logout"
         app:showAsAction="never" />
 
 </menu>

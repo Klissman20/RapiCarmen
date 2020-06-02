@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.rapicarmen.R
+import com.example.rapicarmen.model.StoreTypes
 
 @Suppress("NAME_SHADOWING")
 class StoreTypesAdapter  (context: Context, stores: Array<StoreTypes>): BaseAdapter() {

@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

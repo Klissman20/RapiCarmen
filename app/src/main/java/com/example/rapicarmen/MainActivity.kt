@@ -5,13 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.example.rapicarmen.adapter.PageAdapter
+import com.example.rapicarmen.fragment.GridViewFragment
+import com.example.rapicarmen.fragment.RecyclerFragment
+import com.example.rapicarmen.model.Shop
 import com.facebook.login.LoginManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
@@ -25,18 +32,22 @@ class MainActivity : AppCompatActivity() {
 
     private var mFirestore: FirebaseFirestore? = null
     private var provider: String? = null
+    private var tabLayout: TabLayout? = null
+    private var viewPager: ViewPager? = null
+    lateinit var mAdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val toolbar = findViewById<Toolbar>(R.id.toolbare)
         setSupportActionBar(toolbar)
+
+        tabLayout = findViewById(R.id.tab_layout)
+        viewPager = findViewById(R.id.viewPager)
 
         val bundle= intent.extras
         val email= bundle?.getString("email")
         provider = bundle?.getString("provider")
-        //setup(email?:"",provider?:"")
 
         /*
         val a = R.drawable.ic_belleza_store
@@ -57,19 +68,30 @@ class MainActivity : AppCompatActivity() {
         prefs.putString("provider",provider)
         prefs.apply()
 
-        val gridView: GridView = findViewById(R.id.grid)
+        setupViewPager()
 
-        initFirestore()
+        MobileAds.initialize(this, "ca-app-pub-4260371648761225~4573656018")
+        //MobileAds.initialize(this) {}
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+    }
 
-        //Interfaz de captura los datos de la consulta hecha a firestore para inflar la vista de las categorias
-        getCategories(object : FirestoreCallBack {
-            override fun onCallBack(arrayCategories: Array<StoreTypes>) {
-                val storeAdapter = StoreTypesAdapter(baseContext, arrayCategories);
-                gridView.adapter = storeAdapter;
-            }
-        },mFirestore!!)
+    private fun agregarFragment(): ArrayList<Fragment>{
+        val frag: ArrayList<Fragment> = arrayListOf(GridViewFragment.newInstance(),
+            RecyclerFragment.newInstance())
+        return  frag
+    }
 
-        gridListener(gridView)//Funcion de escucha para clicks en gridView(Vista de categorias)
+    private fun setupViewPager(){
+        viewPager!!.adapter = PageAdapter(
+            supportFragmentManager,
+            agregarFragment()
+        )
+        tabLayout!!.setupWithViewPager(viewPager)
+
+        tabLayout!!.getTabAt(0)!!.text = "CATEGORIAS"
+        tabLayout!!.getTabAt(1)!!.text = "TODAS LAS TIENDAS"
     }
 
     private fun signOut(provider: String?){
@@ -85,26 +107,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
         finish()
-    }
-
-    private fun initFirestore() {
-        mFirestore = FirebaseFirestore.getInstance()
-    }
-
-    //Escribir tiendas en la base de datos
-    private fun onAddItemsClicked() {
-        val storeCarnicerias = mFirestore!!.collection("Negocios")
-            .document("Carnicerias")
-            .collection("Tiendas")
-        /*
-        val tienda = StoreTypes("holaaaa",5433456)
-        val store = hashMapOf(
-            "nombre" to "${tienda.getNombre()}",
-            "telefono" to "${tienda.getIdDrawable()}"
-        )*/
-
-        val tienda = Shop()
-        storeCarnicerias.document().set(tienda)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -126,95 +128,15 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(baseContext,"Para realizar tus domicilios", Toast.LENGTH_SHORT).show()
                 true
             }
-            R.id.agregar -> {
+            /*R.id.agregar -> {
                 //onAddItemsClicked()
                 true
-            }
+            }*/
             R.id.signOut -> {
                 signOut(provider)
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun gridListener(gridView: GridView){
-        gridView.onItemClickListener = object : AdapterView.OnItemClickListener{
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                //var selectedItem = parent?.getItemAtPosition(position)
-                when (position) {
-                    0 -> {
-                        val query: String = "Belleza"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    1 -> {
-                        val query: String = "Carnicerias"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    2 -> {
-                        val query: String = "Farmacias"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    3 -> {
-                        val query: String = "Fruterias"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    4 -> {
-                        val query: String = "Licoreras"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    5 -> {
-                        val query: String = "Mascotas"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    6 -> {
-                        val query: String = "Moda"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    7 -> {
-                        val query: String = "Restaurantes"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    8 -> {
-                        val query: String = "Supermercados"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                    9 -> {
-                        val query: String = "Tecnologia"
-                        val intent = Intent(this@MainActivity, ShopViewActivity::class.java).apply {
-                            putExtra("query", query)
-                        }
-                        startActivity(intent)
-                    }
-                }
-            }
         }
     }
 
@@ -236,28 +158,20 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    //Funcion para obtener las categorias de la vista principal
-    private fun getCategories(CallBack: FirestoreCallBack,database: FirebaseFirestore){
-        var category: Array<StoreTypes>
-        var index: Int = 0
-        val db = database
-        val negociosRef = db.collection("/Negocios")
+    //Escribir tiendas en la base de datos
+    private fun onAddItemsClicked() {
+        val storeCarnicerias = mFirestore!!.collection("Negocios")
+            .document("Carnicerias")
+            .collection("Tiendas")
+        /*
+        val tienda = StoreTypes("holaaaa",5433456)
+        val store = hashMapOf(
+            "nombre" to "${tienda.getNombre()}",
+            "telefono" to "${tienda.getIdDrawable()}"
+        )*/
 
-        negociosRef.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                category = Array<StoreTypes>(size = task.result!!.size()){StoreTypes("",0)}
-                for (document in task.result!!) {
-                    category[index] = StoreTypes(document.id,document["drawable"].toString().toInt())
-                    index++
-                }
-                CallBack.onCallBack(category)
-            }
-        }
-    }
-
-    //Interfaz de devolucion de llamada de los datos en Firestore ^^
-    interface FirestoreCallBack{
-        fun onCallBack(arrayCategories: Array<StoreTypes>)
+        val tienda = Shop()
+        storeCarnicerias.document().set(tienda)
     }
 
 }

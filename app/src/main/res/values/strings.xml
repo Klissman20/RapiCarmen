@@ -7,14 +7,33 @@
     <string name="DescripcionImagen">Tipos de tienda</string>
 
     <string name="btn_registro">Registrarse</string>
-    <string name="btn_acceder">Iniciar sesion</string>
+    <string name="btn_acceder">Iniciar sesión</string>
     <string name="no_account">No tienes cuenta?</string>
     <string name="email">E-mail</string>
     <string name="pass">Contraseña</string>
+    <string name="acceder">ó accede con</string>
 
     <string name="prefs_file">com.example.rapicarmen.PREFERENCE_FILE_KEY</string>
-
     <string name="facebook_app_id">851209288735278</string>
     <string name="fb_login_protocol_scheme">fb851209288735278</string>
+
+    <string name="nombreTienda">Nombre de Tienda</string>
+    <string name="tel">Teléfono</string>
+    <string name="cat">Categoria</string>
+    <string name="logo">Logo de la tienda</string>
+
+    <string name="Pedidos">Pedidos</string>
+    <string name="Domicilios">Domicilios</string>
+    <string name="Agregar">Agregar Tienda</string>
+    <string name="logout">Cerrar sesión</string>
+
+    <string name="Detalledelocal">Detalle de Tienda</string>
+    <string name="nombreLocal">Nombre</string>
+    <string name="descripcionContenido">Descripción de contenido</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="direccion">Dirección</string>
+    <string name="descripcionUbicacion">Descripción de ubicación</string>
+    <string name="productos">Productos</string>
+    <string name="descripcionProductos">Descripción de productos o servicios ofrecidos</string>
 
 </resources>

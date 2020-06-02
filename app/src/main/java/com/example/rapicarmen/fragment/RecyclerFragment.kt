@@ -1,115 +1,48 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.fragment
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rapicarmen.R
+import com.example.rapicarmen.ShopDetailsActivity
 import com.example.rapicarmen.adapter.ShopAdapter
 import com.google.firebase.firestore.*
 import java.util.*
 
 
-class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.OnShopSelectedListener {
+class RecyclerFragment : Fragment(),View.OnClickListener, ShopAdapter.OnShopSelectedListener {
 
     private var mFirestore: FirebaseFirestore? = null
-    private var mQuery: Query? = null
     private var mShopsRecycler: RecyclerView? = null
     private val mEmptyView: ViewGroup? = null
     private var mAdapter: ShopAdapter? = null
+    private var mQuery: Query? = null
     private var mSearchView: SearchView? = null
-
-    private var bundle: Bundle? = null
-    private var query: String? = null
     private var searchTerm: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shop)
-        val toolbar = findViewById<Toolbar>(R.id.toolbare)
-        setSupportActionBar(toolbar)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val v = inflater.inflate(R.layout.fragment_recycler, container, false)
 
-        bundle = this.intent.extras
-        query = bundle!!.getString("query")
+        mShopsRecycler = v.findViewById(R.id.recycler_shops_fragment)
 
-        mShopsRecycler = findViewById(R.id.recycler_shops)
-
-        mSearchView = findViewById<SearchView>(R.id.searchViewShop)
+        mSearchView = v.findViewById(R.id.searchView_frag)
         mSearchView!!.isActivated
 
         initFirestore()
         getFirestoreQuery()
+
         initRecyclerView()
 
-    }
-
-    private fun filter(){
-        mSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                searchTerm = newText
-                mAdapter!!.stopListening()
-                if (searchTerm != "") {
-                    Search(searchTerm)
-                    mAdapter!!.setQuery(mQuery)
-                }else{
-                    getFirestoreQuery()
-                    mAdapter!!.setQuery(mQuery)
-                }
-
-                //mAdapter!!.startListening()
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                searchTerm = query
-                mAdapter!!.stopListening()
-                if (searchTerm != "") {
-                    Search(searchTerm)
-                    mAdapter!!.setQuery(mQuery)
-                }else{
-                    getFirestoreQuery()
-                    mAdapter!!.setQuery(mQuery)
-                }
-                //mAdapter!!.startListening()
-                return false
-            }
-        })
-
-
-    }
-
-    private fun Search(search: String?): Query? {
-
-        mQuery = mFirestore!!.collection("/Negocios").document("$query")
-            .collection("Tiendas").orderBy("nombre")
-            .whereGreaterThanOrEqualTo("nombre", search!!.toUpperCase(Locale.ROOT))
-            //.startAt(search!!.toUpperCase()).limit(3)
-            //.whereGreaterThanOrEqualTo("nombre","${search!!.toUpperCase()}")
-        //.startAt(search!!.toUpperCase())//.endAt(search + "\uf8ff")
-        return mQuery
-    }
-
-    private fun initFirestore(){
-        mFirestore = FirebaseFirestore.getInstance()
-
-        val settings = FirebaseFirestoreSettings.Builder()
-            .setPersistenceEnabled(true)
-            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-            .build()
-        mFirestore!!.firestoreSettings = settings
-    }
-
-    private fun getFirestoreQuery() {
-        // To read data from Firetore Database
-        mQuery = mFirestore!!.collection("/Negocios").document("$query")
-            .collection("Tiendas").orderBy("nombre")
+        return v
 
     }
 
@@ -130,42 +63,60 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
         }
     }
 
-    /*
-    override fun onPause() {
-        super.onPause()
-        if (mAdapter != null) {
-            mAdapter!!.stopListening()
-        }
+    private fun filter(){
+        mSearchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchTerm = newText
+                mAdapter!!.stopListening()
+                if (searchTerm != "") {
+                    Search(searchTerm)
+                    mAdapter!!.setQuery(mQuery)
+                }else{
+                    getFirestoreQuery()
+                    mAdapter!!.setQuery(mQuery)
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchTerm = query
+                mAdapter!!.stopListening()
+                if (searchTerm != "") {
+                    Search(searchTerm)
+                    mAdapter!!.setQuery(mQuery)
+                }else{
+                    getFirestoreQuery()
+                    mAdapter!!.setQuery(mQuery)
+                }
+                return false
+            }
+        })
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (mAdapter != null) {
-            mAdapter!!.startListening()
-        }
+    private fun Search(search: String?): Query? {
+
+        mQuery = mFirestore!!.collectionGroup("Tiendas").orderBy("nombre")
+            .whereGreaterThanOrEqualTo("nombre", search!!.toUpperCase(Locale.ROOT) + "\uf8ff")
+        //.startAt(search!!.toUpperCase()).limit(3)
+        //.whereGreaterThanOrEqualTo("nombre","${search!!.toUpperCase()}")
+        //.startAt(search!!.toUpperCase())//.endAt(search + "\uf8ff")
+        return mQuery
     }
 
-     */
+    private fun initFirestore(){
+        mFirestore = FirebaseFirestore.getInstance()
 
-    override fun onDestroy() {
-        super.onDestroy()
-        finish()
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .build()
+        mFirestore!!.firestoreSettings = settings
     }
 
-    override fun onClick(v: View) {
-        //when (v.id) {
-            //R.id.filter_bar -> onFilterClicked()
-            //R.id.button_clear_filter -> onClearFilterClicked()
-        //}
-    }
-
-    override fun onShopSelected(shop: DocumentSnapshot?) {
-        val intent = Intent(this, ShopDetailsActivity::class.java).apply {
-            putExtra("nombre", shop!!["nombre"].toString())
-            putExtra("tel", shop["telefono"].toString())
-            putExtra("categoria", shop["categoria"].toString())
-        }
-        startActivity(intent)
+    private fun getFirestoreQuery() {
+        // To read data from Firetore Database
+        mQuery = mFirestore!!.collectionGroup("Tiendas").orderBy("nombre")
     }
 
     //initRecyclerView  obtiene la vista de las tiendas según su categoria
@@ -186,11 +137,29 @@ class ShopViewActivity : AppCompatActivity(),View.OnClickListener, ShopAdapter.O
             }
 
             override fun onError(e: FirebaseFirestoreException?) {
-                Toast.makeText(this@ShopViewActivity, "Error obteniendo los datos", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(activity, "Error obteniendo los datos", Toast.LENGTH_SHORT).show()
             }
         }
-        mShopsRecycler!!.setLayoutManager(LinearLayoutManager(this))
+
+        mShopsRecycler!!.layoutManager = LinearLayoutManager(activity)
         mShopsRecycler!!.adapter = mAdapter
+    }
+
+
+    companion object {
+        fun newInstance() = RecyclerFragment()
+    }
+
+    override fun onClick(v: View?) {
+
+    }
+
+    override fun onShopSelected(shop: DocumentSnapshot?) {
+        val intent = Intent(activity, ShopDetailsActivity::class.java).apply {
+            putExtra("nombre", shop!!["nombre"].toString())
+            putExtra("tel", shop["telefono"].toString())
+            putExtra("categoria", shop["categoria"].toString())
+        }
+        startActivity(intent)
     }
 }

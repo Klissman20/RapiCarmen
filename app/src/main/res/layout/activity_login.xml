@@ -40,7 +40,8 @@
             android:layout_marginBottom="10dp"
             android:hint="@string/email"
             android:textSize="20sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/txt_pass"

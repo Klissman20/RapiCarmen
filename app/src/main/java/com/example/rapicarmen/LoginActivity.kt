@@ -48,8 +48,6 @@ class LoginActivity : AppCompatActivity() {
         txt_email = findViewById<EditText>(R.id.txt_email)
         txt_pass = findViewById<EditText>(R.id.txt_pass)
 
-        auth = FirebaseAuth.getInstance()
-
         //Analytic Event
         val analytics= FirebaseAnalytics.getInstance(this)
         val bundle=Bundle()

@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rapicarmen.util.GlideApp
+import com.example.rapicarmen.R
+import com.example.rapicarmen.model.Shop
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
@@ -25,7 +28,13 @@ open class ShopAdapter(mquery: Query?, mListener: OnShopSelectedListener) : Fire
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(R.layout.item_shop, parent, false))
+        return ViewHolder(
+            inflater.inflate(
+                R.layout.item_shop,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,7 +56,8 @@ open class ShopAdapter(mquery: Query?, mListener: OnShopSelectedListener) : Fire
 
         fun bind(snapshot: DocumentSnapshot?, listener: OnShopSelectedListener?) {
 
-            val shop: Shop? = snapshot?.toObject(Shop::class.java)
+            val shop: Shop? = snapshot?.toObject(
+                Shop::class.java)
             //val resources: Resources = itemView.resources
 
             val storageReference = FirebaseStorage.getInstance()
@@ -65,11 +75,11 @@ open class ShopAdapter(mquery: Query?, mListener: OnShopSelectedListener) : Fire
             catView!!.setText(shop?.getCategoria())
 
             // Click listener
-            itemView.setOnClickListener(View.OnClickListener {
+            itemView.setOnClickListener {
                 listener?.onShopSelected(
                     snapshot
                 )
-            })
+            }
         }
     }
 }

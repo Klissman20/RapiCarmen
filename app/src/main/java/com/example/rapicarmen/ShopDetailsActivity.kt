@@ -5,12 +5,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rapicarmen.util.GlideApp
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.storage.FirebaseStorage
 
 class ShopDetailsActivity : AppCompatActivity() {
 
     val storageReference = FirebaseStorage.getInstance()
-    //val imgTiendasRef = storageReference.child("ImagenesTiendas/")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +22,10 @@ class ShopDetailsActivity : AppCompatActivity() {
 
     private fun getData() {
 
-        var bundle: Bundle? = this.intent.extras
-        var nombre = bundle!!.getString("nombre")
-        var telefono = bundle.getString("tel")
-        var categoria = bundle.getString("categoria")
+        val bundle: Bundle? = this.intent.extras
+        val nombre = bundle!!.getString("nombre")
+        val telefono = bundle.getString("tel")
+        val categoria = bundle.getString("categoria")
 
         val imgReference = storageReference.getReferenceFromUrl("gs://rapicarmen-database.appspot.com/ImagenesTiendas/$nombre.png")
         //val imgReference = storageReference.reference.child("ImagenesTiendas/$nombre.png")

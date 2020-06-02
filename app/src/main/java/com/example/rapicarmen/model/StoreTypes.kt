@@ -1,4 +1,4 @@
-package com.example.rapicarmen
+package com.example.rapicarmen.model
 
 open class StoreTypes (name: String, id: Int) {
 

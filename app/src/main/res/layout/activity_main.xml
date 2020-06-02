@@ -17,42 +17,45 @@
         app:titleTextAppearance="@style/ToolbarTheme.text"
         app:logo="@mipmap/ic_rapicarmenfinal_round"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        app:tabTextColor="@color/white"
+        app:tabSelectedTextColor="@color/gainsboro"
+        app:tabIndicatorColor="@color/white"/>
+
     <FrameLayout
         android:id="@+id/barra_busqueda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/red">
 
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:queryHint="@string/hint_search"
-            android:iconifiedByDefault="false"
-            android:background="@color/white"/>
-
     </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_below="@+id/barra_busqueda"
         android:background="@drawable/bg_shadow" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:theme="@style/AppTheme"/>
 
-    <GridView
-        android:id="@+id/grid"
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="200dp"
-        android:numColumns="3"
-        android:padding="15dp"
-        android:layout_marginTop="15dp"
-        android:verticalSpacing="@dimen/espacio_grilla"
-        android:horizontalSpacing="@dimen/espacio_grilla"/>
+        android:layout_gravity="bottom"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
 
 </LinearLayout>
